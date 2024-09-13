@@ -1,9 +1,6 @@
 import sqlite_lib
 import pytest
 
-
-
-
 @pytest.fixture
 def before_after_operations_db():
     # BEFORE
@@ -11,11 +8,8 @@ def before_after_operations_db():
 
     yield  # test_get_years
 
-
-
     # AFTER
     sqlite_lib.close()
-
 
 #1
 def test_winning_number (before_after_operations_db):
@@ -46,14 +40,14 @@ def test_question_3_full_chart_True (before_after_operations_db):
         if song[1]==result[1] and song[0] == result[0]:
             assert result == 'A-Ba-Ni-Bi'
 
+
 def test_question_3_full_chart_False (before_after_operations_db):
-    from question_3_for_test import country_year_winner_for_test
+    from Homework import country_year_winner_for_test
     table: list(tuple()) = sqlite_lib.run_query_select("SELECT * FROM eurovision_winners ew")
     for song in table:
         year, country, winner, host_country, song_name = song
         result = country_year_winner_for_test('Israel', 1965)
         if song[1] != result[1] or song[0] != result[0]:
             assert result == 'Wrong'
-
 
 
