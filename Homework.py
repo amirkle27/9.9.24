@@ -10,19 +10,21 @@ def eurovision_table ():
     for row in table:
         year,country,winner,host_country,song_name = row
         print (f"{year:<9}{country:<20}{winner:<41}{host_country:<20}{song_name}")
-
-
     sqlite_lib.close()
 
 if __name__ == "__main__":
     (eurovision_table())
 
 #3.1
+def ask_for_country_and_year ():
+    country = input("Which Country?")
+    year = input("Which Year?")
+    return country, year
 
-def country_year_winner (country:str = 'israel', year:int = 2018):
+
+def country_year_winner(country: str = 'israel', year: str = '2018'):
     sqlite_lib.connect('eurovision_db.db')
-    country = input("Country?")
-    year = input("Year?")
+    country, year = ask_for_country_and_year()
     song_name = sqlite_lib.run_query_select(f"SELECT song_name FROM eurovision_winners ew WHERE country LIKE '{country}' AND year = {year}")
     if song_name:
         return (song_name [0][0])
@@ -36,14 +38,13 @@ if __name__ == "__main__":
 
 #3.2
 
-def check_winner_filter():
+def check_winner_filter(country:str = 'israel', year:str = '2018'):
     sqlite_lib.connect('eurovision_db.db')
     result_sql = sqlite_lib.run_query_select(f"SELECT * from eurovision_winners")
-    Country = input("Which Country?")
-    Year = input("Which Year?")
+    ask_for_country_and_year()
     for details in result_sql:
-        year, country,winner, host_country, song_name = details
-        result = list(filter(lambda details: details[1] == Country and str(details[0]) == Year, result_sql))
+        Year, Country,winner, host_country, song_name = details
+        result = list(filter(lambda details: details[1] == country and str(details[0]) == year, result_sql))
     if result:
         print(result[0][4])
     else:
