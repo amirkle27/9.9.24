@@ -26,12 +26,13 @@ def country_year_winner(country: str = 'israel', year: str = '2018'):
     sqlite_lib.connect('eurovision_db.db')
     country, year = ask_for_country_and_year()
     song_name = sqlite_lib.run_query_select(f"SELECT song_name FROM eurovision_winners ew WHERE country LIKE '{country}' AND year = {year}")
+    sqlite_lib.close()
     if song_name:
         return (song_name [0][0])
     else:
         return "Wrong"
 
-    sqlite_lib.close()
+    
 
 if __name__ == "__main__":
     print(country_year_winner())
@@ -77,11 +78,12 @@ if __name__ == "__main__":
 def country_year_winner_for_test (country, year):
     sqlite_lib.connect('eurovision_db.db')
     song_name = sqlite_lib.run_query_select(f"SELECT song_name FROM eurovision_winners ew WHERE country LIKE '{country}' AND year LIKE {year}")
+    sqlite_lib.close()
     if song_name:
         return song_name [0][0]
     else:
         return "Wrong"
-    sqlite_lib.close()
+    
 
 
 
